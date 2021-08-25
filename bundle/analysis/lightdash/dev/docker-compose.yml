@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  lightdash-dev:
+    build:
+      context: ..
+      dockerfile: dockerfile
+      target: ${DOCKERFILE_TARGET}
+    depends_on:
+      - db-dev
+    environment:
+      - PGHOST=${PGHOST}
+      - PGPORT=${PGPORT}
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
+      - RUDDERSTACK_WRITE_KEY=${RUDDERSTACK_WRITE_KEY}
+      - RUDDERSTACK_DATA_PLANE_URL=${RUDDERSTACK_DATA_PLANE_URL}
+      - SECURE_COOKIES=${SECURE_COOKIES}
+      - LIGHTDASH_SECRET=${LIGHTDASH_SECRET}
+    volumes:
+      - "${DEMO_PROFILES_DIR}:/usr/app/profiles"
+      - "${DEMO_PROJECT_DIR}:/usr/app/dbt"
+      - "../packages:/usr/app/packages"
+    ports:
+      - ${PORT}:8080
+      - 3000:3000
+
+  db-dev:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+    ports:
+      - 5432:${PGPORT}
