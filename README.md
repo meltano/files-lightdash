@@ -11,10 +11,10 @@ See [setup.py](./setup.py)) for the full list of bundled files.
 
 Automated installation is not yet available.
 
-To manually install, first add the below or append to the `utilities:` section of your `meltano.yml` file
+To manually install, first add the below or append to the `files:` section of your `meltano.yml` file
 
 ```yml
-  utilities:
+  files:
   - name: lightdash
     namespace: lightdash
     pip_url: git+https://gitlab.com/meltano/files-lightdash.git
@@ -30,6 +30,6 @@ To manually install, first add the below or append to the `utilities:` section o
         args: compose -f analysis/lightdash/docker-compose.yml up
 ```
 
-Next, run `meltano install utility lightdash`.
+Next, run `meltano install files lightdash`.
 
 Lastly, invoke via `meltano invoke lightdash:ui`
