@@ -4,56 +4,58 @@ Meltano project [file bundle](https://docs.meltano.com/concepts/plugins#file-bun
 
 Files:
 - [`analysis/lightdash/README.md`](./bundle/analysis/lightdash/README.md) instructions for getting started with Lightdash.
+- [`analysis/lightdash/docker-compose.yml`](./bundle/analysis/lightdash/docker-compose.yml) the docker-compose file for starting up Lightdash running in Docker containers.
 
 See [setup.py](./setup.py) for the full list of bundled files.
 
 ## Installation
 
-To install Lightdash into your Meltano project you need to use a `--custom` file bundle, soon it will be part of Meltano and the following custom installation details will not be needed, just `meltano add files lightdash`.
+To install Lightdash into your Meltano project you need to use a `custom` file bundle, soon it will be part of Meltano and the following custom installation details will not be needed, just `meltano add files lightdash`.
 
-Run:
+Until then we will install it as a custom bundle, run:
 
 `meltano add --custom files lightdash`
 
 Follow the prompts as shown below, entering the pip_url when prompted:
 
 ```bash
-Adding new custom file bundle with name 'lightdash'...
-
-Specify the plugin's namespace, which will serve as the:
-- identifier to find related/compatible plugins
-
-Hit Return to accept the default: plugin name with underscores instead of dashes
+# Adding new custom file bundle with name 'lightdash'...
+# 
+# Specify the plugin's namespace, which will serve as the:
+# - identifier to find related/compatible plugins
+# 
+# Hit Return to accept the default: plugin name with underscores instead of dashes
 
 (namespace) [lightdash]: 
 
-Specify the plugin's `pip install` argument, for example:
-- PyPI package name:
-        lightdash
-- Git repository URL:
-        git+https://gitlab.com/meltano/lightdash.git
-- local directory, in editable/development mode:
-        -e extract/lightdash
-- 'n' if using a local executable (nothing to install)
-
-Default: plugin name as PyPI package name
+# Specify the plugin's `pip install` argument, for example:
+# - PyPI package name:
+#         lightdash
+# - Git repository URL:
+#         git+https://gitlab.com/meltano/lightdash.git
+# - local directory, in editable/development mode:
+#         -e extract/lightdash
+# - 'n' if using a local executable (nothing to install)
+# 
+# Default: plugin name as PyPI package name
 
 (pip_url) [lightdash]: git+https://gitlab.com/meltano/files-lightdash.git
 
-Specify the plugin's executable name
-
-Default: name derived from `pip_url`
+# Specify the plugin's executable name
+# 
+# Default: name derived from `pip_url`
 
 (executable) [files-lightdash]: 
-Adding file bundle 'lightdash' to your Meltano project...
-
-Installing file bundle 'lightdash'...
+# Adding file bundle 'lightdash' to your Meltano project...
+# 
+# Installing file bundle 'lightdash'...
 ```
 
-Add the following utility configs to your meltano.yml file.
+Add the following utility configs to your meltano.yml file under the `plugins` key.
 This will soon be added to Meltano so these configs will be added automatically using `meltano add utility lightdash`, but for now its manual.
 
 ```yaml
+plugins:
   utilities:
   - name: lightdash
     namespace: lightdash
@@ -75,9 +77,9 @@ This will soon be added to Meltano so these configs will be added automatically 
       - name: pguser
       - name: pgdatabase
       - name: dbt_project_dir
-        value: "./transform"
+        value: "../../transform"
       - name: dbt_target_dir
-        value: "./.meltano/transformers/dbt/target"
+        value: "../../.meltano/transformers/dbt/target"
 ```
 
 Lightdash needs a backend postgres database to store application data, you can either let Lightdash spin up its own Postgres container automatically or you can pass it credentials to connect to an existing instance.
@@ -99,3 +101,15 @@ meltano config lightdash set pgdatabase lightdash
 Lastly, invoke via `meltano invoke lightdash:ui-only` and navigate to http://localhost:5000.
 
 Alternatively run `meltano invoke lightdash:ui` to have it automatically spin up its own instance.
+
+
+# Pro Tips and Troubleshooting
+
+Lightdash reads your dbt target directory in order to retrieve metadata, so if you are having issues you can try running:
+
+```
+meltano invoke dbt:clean
+meltano invoke dbt:compile
+```
+
+This will clean the target directory and recompile the artifacts, using the Lightdash "Refresh dbt" button in the Explore page.
