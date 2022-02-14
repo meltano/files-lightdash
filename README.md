@@ -82,11 +82,15 @@ plugins:
         value: "../../.meltano/transformers/dbt/target"
 ```
 
+## Configuration
+
 Lightdash needs a backend postgres database to store application data, you can either let Lightdash spin up its own Postgres container automatically or you can pass it credentials to connect to an existing instance.
 If you already have a Postgres instance running locally on 5432 the automatically created Postgres instance will fail to startup.
 Either change the default ports or let Lightdash share your instance by providing it an empty database to connect to.
 
-For configuring Lightdash to use your locally running postgres instance you need to set the following configurations:
+#### Existing Postgres Instance
+
+For configuring Lightdash to use your existing running postgres instance you need to set the following configurations:
 
 ```bash
 meltano config lightdash set secret "not very secret"
@@ -98,9 +102,12 @@ meltano config lightdash set pghost host.docker.internal
 meltano config lightdash set pgdatabase lightdash
 ```
 
-Lastly, invoke via `meltano invoke lightdash:ui-only` and navigate to http://localhost:5000.
+Lastly, invoke the UI only using `meltano invoke lightdash:ui-only` and navigate to http://localhost:5000 to begin registration and setup.
 
-Alternatively run `meltano invoke lightdash:ui` to have it automatically spin up its own instance.
+#### Automatically Create Local Postgres Instance For Me
+
+Alternatively without any additional configuration you can run `meltano invoke lightdash:ui` to have it automatically spin up its own Postgres instance and the UI.
+Then navigate to http://localhost:5000 to begin registration and setup.
 
 
 # Pro Tips and Troubleshooting

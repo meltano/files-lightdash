@@ -39,6 +39,6 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: ${PGPASSWORD}
-      POSTGRES_USER: ${PGUSER:-postgres}
-      POSTGRES_DB: ${PGDATABASE:-postgres}
+      POSTGRES_PASSWORD: ${LIGHTDASH_PGPASSWORD}
+      POSTGRES_USER: ${LIGHTDASH_PGUSER:-postgres}
+      POSTGRES_DB: ${LIGHTDASH_PGDATABASE:-postgres}
