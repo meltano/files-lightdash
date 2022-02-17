@@ -60,12 +60,12 @@ plugins:
   - name: lightdash
     namespace: lightdash
     commands:
-      ui:
+      up:
         executable: /usr/local/bin/docker
-        args: compose -f analysis/lightdash/docker-compose.yml up
-      ui-only:
+        args: compose -f analysis/lightdash/docker-compose.yml up lightdash
+      down:
         executable: /usr/local/bin/docker
-        args: compose -f analysis/lightdash/docker-compose.yml up lightdash --no-deps
+        args: compose -f analysis/lightdash/docker-compose.yml down
     settings:
       - name: pgpassword
         kind: password
@@ -102,11 +102,11 @@ meltano config lightdash set pghost host.docker.internal
 meltano config lightdash set pgdatabase lightdash
 ```
 
-Lastly, invoke the UI only using `meltano invoke lightdash:ui-only` and navigate to http://localhost:5000 to begin registration and setup.
+Lastly, invoke the UI only using `meltano invoke lightdash:up --no-deps` and navigate to http://localhost:5000 to begin registration and setup.
 
 #### Automatically Create Local Postgres Instance For Me
 
-Alternatively without any additional configuration you can run `meltano invoke lightdash:ui` to have it automatically spin up its own Postgres instance and the UI.
+Alternatively without any additional configuration you can run `meltano invoke lightdash:up` to have it automatically spin up its own Postgres instance and the UI.
 Then navigate to http://localhost:5000 to begin registration and setup.
 
 
