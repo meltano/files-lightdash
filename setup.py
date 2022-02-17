@@ -8,8 +8,7 @@ setup(
     package_data={
         "bundle": [
             "analysis/lightdash/README.md",
-            "analysis/lightdash/dev/docker-compose.yml",
-            "analysis/lightdash/prod/docker-compose.yml",
+            "analysis/lightdash/*",
         ]
     },
 )
